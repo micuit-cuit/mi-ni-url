@@ -35,9 +35,7 @@ app.get("/:url/admin", async (req, res) => {
 })
 app.get("/api/:url/delete", async (req, res) => {
     // suppression de l'url dans la base de données
-    log.d("URL requested", req.params.url)
     const url = await urlModel.findOne({where: {url: req.params.url}})
-    log.d("URL found", url)
     if(url) {
         await url.destroy()
         res.send(JSON.stringify({status: true}))
@@ -50,7 +48,6 @@ app.get("/api/:redirect/:alias/", async (req, res) => {
     const alias = decodeURIComponent(req.params.alias)
     const redirect = decodeURIComponent(req.params.redirect)
     // ajout de l'url dans la base de données
-    log.d("URL:"+alias+" Redirect:"+redirect)
     //verifie les donnees d'entree (url dois etre une chaine de caracteres, max 10 caracteres, pas de caracteres speciaux)
     if(alias.length > 30 ) {
         if (alias.length > 30) {
@@ -85,14 +82,11 @@ app.get("/api/:redirect/:alias/", async (req, res) => {
     }
     const ip = req.headers["x-forwarded-for"] || req.connection.remoteAddress
     const url = await urlModel.create({url: alias, redirect: redirect, ip: ip})
-    log.d("URL created", url)
     res.send(JSON.stringify({status: true}))
 })
 app.get("/:url", async (req, res) => {
     // recherche de l'url dans la base de données
-    log.d("URL requested", req.params.url)
     const url = await urlModel.findOne({where: {url: req.params.url}})
-    log.d("URL found", url)
     if(url) {
         res.redirect(url.redirect)
     }
