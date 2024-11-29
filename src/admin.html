@@ -95,6 +95,7 @@
                 <span id="alias-date">{{date}}</span>
             </div>
             <button class="delete-button" onclick="deleteAlias('{{alias}}')">Supprimer</button>
+            <button class="delete-button" onclick="copyToClipboard('{{alias}}')">Copier</button>
         </div>
         by <a href="http://micuit-cuit.com">micuit-cuit</a>
     </div>
@@ -116,6 +117,16 @@
             .catch(error => {
                 console.error('Erreur:', error);
                 alert(`Erreur lors de la suppression de l'alias ${alias}`);
+            });
+        }
+        function copyToClipboard(alias){
+            navigator.clipboard.writeText(`https://mi-ni-url.herokuapp.com/${alias}`)
+            .then(() => {
+                alert(`L'alias ${alias} a été copié dans le presse-papier`);
+            })
+            .catch(err => {
+                console.error('Erreur:', err);
+                alert(`Erreur lors de la copie de l'alias ${alias}`);
             });
         }
     </script>
