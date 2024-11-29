@@ -9,12 +9,13 @@ log.i("Starting server")
 ;(async () => {
 
 const pornDomaine = await fetch("https://raw.githubusercontent.com/Bon-Appetit/porn-domains/master/block.txt").then(res => res.text()).then(data => data.split("\n"))
-
+log.s("pornDomaine loaded")
 await micuitDb.sync();
 const urlModel = micuitDb.models.url
-log.i("Database synchronized")
+log.s("Database synchronized")
 
 app.get("/", (req, res) => {
+    log.i("Home page requested")
     res.sendFile(__dirname + "/src/index.html")
 })
 app.get("/:url/admin", async (req, res) => {
